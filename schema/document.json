@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Document",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "document_id", "tenant_id", "matter_id", "name", "content_ref", "provenance"],
+  "properties": {
+    "schema_version": {"const": "0.1.0"},
+    "document_id": {"type": "string"},
+    "tenant_id": {"type": "string"},
+    "matter_id": {"type": ["string", "null"]},
+    "name": {"type": "string"},
+    "media_type": {"type": ["string", "null"]},
+    "content_ref": {"type": "string"},
+    "sha256": {"type": ["string", "null"], "pattern": "^[a-fA-F0-9]{64}$"},
+    "provenance": {"type": "object"},
+    "metadata": {"type": "object"}
+  }
+}

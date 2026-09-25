@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Workflow Run / Execution Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "workflow_run_id", "goal_id", "workflow_id", "workflow_version", "resolved_mode", "state", "policy_profile", "stages", "created_at"],
+  "properties": {
+    "schema_version": {"const": "0.1.0"},
+    "workflow_run_id": {"type": "string"},
+    "goal_id": {"type": "string"},
+    "workflow_id": {"type": "string"},
+    "workflow_version": {"type": "string"},
+    "resolved_mode": {"enum": ["DIRECT", "GUIDED", "ESCALATED", "FORGE"]},
+    "state": {"enum": ["REQUESTED", "NORMALIZED", "POLICY_EVALUATED", "RUNNING", "VERIFYING", "AWAITING_APPROVAL", "COMPLETED", "ESCALATED", "FAILED", "CANCELLED"]},
+    "policy_profile": {
+      "type": "object",
+      "required": ["id", "version"],
+      "properties": {"id": {"type": "string"}, "version": {"type": "string"}},
+      "additionalProperties": false
+    },
+    "stages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["stage_id", "status"],
+        "properties": {
+          "stage_id": {"type": "string"},
+          "status": {"enum": ["PENDING", "RUNNING", "PASSED", "FAILED", "SKIPPED", "BLOCKED"]},
+          "skill_refs": {"type": "array", "items": {"type": "string"}},
+          "tool_decisions": {"type": "array", "items": {"type": "object"}},
+          "model_routes": {"type": "array", "items": {"type": "object"}},
+          "started_at": {"type": ["string", "null"], "format": "date-time"},
+          "completed_at": {"type": ["string", "null"], "format": "date-time"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "approval_refs": {"type": "array", "items": {"type": "string"}},
+    "verification_refs": {"type": "array", "items": {"type": "string"}},
+    "outcome_ref": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "completed_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

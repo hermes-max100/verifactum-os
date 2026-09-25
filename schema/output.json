@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Outcome Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "outcome_id", "workflow_run_id", "status", "artifacts", "verification"],
+  "properties": {
+    "schema_version": {"const": "0.1.0"},
+    "outcome_id": {"type": "string"},
+    "workflow_run_id": {"type": "string"},
+    "status": {"enum": ["DRAFT", "VERIFIED", "AWAITING_APPROVAL", "ESCALATED", "FINAL", "FAILED"]},
+    "summary": {"type": ["string", "null"]},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["finding_id", "statement"],
+        "properties": {
+          "finding_id": {"type": "string"},
+          "statement": {"type": "string"},
+          "severity": {"type": ["string", "null"]},
+          "provenance_refs": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "ref"],
+        "properties": {
+          "kind": {"type": "string"},
+          "ref": {"type": "string"},
+          "media_type": {"type": ["string", "null"]}
+        },
+        "additionalProperties": false
+      }
+    },
+    "verification": {"type": "object"},
+    "approval": {"type": ["object", "null"]},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "renderer_hints": {"type": "object"}
+  }
+}

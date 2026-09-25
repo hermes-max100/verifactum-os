@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Policy Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_profile_id", "version", "tool_policy_ref", "approval_rules", "verification_rules"],
+  "properties": {
+    "schema_version": {"const": "0.1.0"},
+    "policy_profile_id": {"type": "string"},
+    "version": {"type": "string"},
+    "tool_policy_ref": {"type": "string"},
+    "model_routing_policy_ref": {"type": ["string", "null"]},
+    "approval_rules": {"type": "array", "items": {"type": "object"}},
+    "verification_rules": {"type": "array", "items": {"type": "object"}},
+    "data_handling": {"type": "object"},
+    "metadata": {"type": "object"}
+  }
+}

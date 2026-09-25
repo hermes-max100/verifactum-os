@@ -1,0 +1,14 @@
+{
+  "workflow_id": "contract_review",
+  "version": "0.1.0",
+  "default_mode": "GUIDED",
+  "description": "Canary contract-review workflow.",
+  "stages": [
+    {"id": "normalize", "type": "NORMALIZE", "requires": ["document"], "produces": ["canonical_request"], "next": "analyze"},
+    {"id": "analyze", "type": "ANALYZE", "capabilities": ["contract.issue_spotting", "contract.clause_analysis"], "allowed_tool_classes": ["DOCUMENT_READ", "RETRIEVAL"], "produces": ["findings"], "next": "verify"},
+    {"id": "verify", "type": "VERIFY", "verification_profile": "legal-output-default", "produces": ["verification_result"], "on_pass": "render", "on_fail": "review"},
+    {"id": "review", "type": "REVIEW", "approval_hook": "legal_reviewer", "on_approved": "render", "on_rejected": "end_escalated"},
+    {"id": "render", "type": "RENDER", "produces": ["outcome"], "next": "end_completed"}
+  ],
+  "terminal_states": ["end_completed", "end_escalated"]
+}

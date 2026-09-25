@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Approval Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "approval_id", "workflow_run_id", "status", "approval_type", "created_at"],
+  "properties": {
+    "schema_version": {"const": "0.1.0"},
+    "approval_id": {"type": "string"},
+    "workflow_run_id": {"type": "string"},
+    "approval_type": {"type": "string"},
+    "status": {"enum": ["PENDING", "APPROVED", "REJECTED", "EXPIRED", "CANCELLED"]},
+    "required_role": {"type": ["string", "null"]},
+    "decision_actor_id": {"type": ["string", "null"]},
+    "decision_reason": {"type": ["string", "null"]},
+    "created_at": {"type": "string", "format": "date-time"},
+    "decided_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

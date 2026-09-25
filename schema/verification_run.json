@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Verification Run",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "verification_id", "workflow_run_id", "target_ref", "status", "checks"],
+  "properties": {
+    "schema_version": {"const": "0.1.0"},
+    "verification_id": {"type": "string"},
+    "workflow_run_id": {"type": "string"},
+    "target_ref": {"type": "string"},
+    "status": {"enum": ["PENDING", "RUNNING", "PASSED", "FAILED", "INCONCLUSIVE"]},
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["check_id", "status"],
+        "properties": {
+          "check_id": {"type": "string"},
+          "status": {"enum": ["PASSED", "FAILED", "INCONCLUSIVE", "SKIPPED"]},
+          "details": {"type": "object"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "started_at": {"type": ["string", "null"], "format": "date-time"},
+    "completed_at": {"type": ["string", "null"], "format": "date-time"}
+  }
+}

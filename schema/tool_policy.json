@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verifactum.example/schema/tool_policy.json",
+  "title": "Tool Policy Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "policy_id", "version", "default_effect", "rules"],
+  "properties": {
+    "schema_version": {"const": "0.1.0"},
+    "policy_id": {"type": "string"},
+    "version": {"type": "string"},
+    "default_effect": {"enum": ["ALLOW", "DENY"]},
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "effect", "tool_class", "operations"],
+        "properties": {
+          "rule_id": {"type": "string"},
+          "effect": {"enum": ["ALLOW", "DENY", "REQUIRE_APPROVAL"]},
+          "tool_class": {"type": "string"},
+          "operations": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+          "data_scopes": {"type": "array", "items": {"type": "string"}},
+          "approval_type": {"type": ["string", "null"]},
+          "conditions": {"type": "object"}
+        }
+      }
+    }
+  }
+}

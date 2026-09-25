@@ -1,0 +1,15 @@
+{
+  "workflow_id": "nda_triage",
+  "version": "0.1.0",
+  "default_mode": "DIRECT",
+  "description": "Canary NDA triage workflow with escalation conditions.",
+  "stages": [
+    {"id": "normalize", "type": "NORMALIZE", "requires": ["document"], "produces": ["canonical_request"], "next": "triage"},
+    {"id": "triage", "type": "ANALYZE", "capabilities": ["nda.clause_extract", "nda.risk_triage"], "allowed_tool_classes": ["DOCUMENT_READ"], "produces": ["findings", "risk_flags"], "next": "verify"},
+    {"id": "verify", "type": "VERIFY", "verification_profile": "nda-triage-default", "on_pass": "route", "on_fail": "review"},
+    {"id": "route", "type": "ANALYZE", "transition_rules": [{"when": "risk_flags.high_consequence == true", "next": "review"}, {"when": "otherwise", "next": "render"}]},
+    {"id": "review", "type": "REVIEW", "approval_hook": "legal_reviewer", "on_approved": "render", "on_rejected": "end_escalated"},
+    {"id": "render", "type": "RENDER", "produces": ["outcome"], "next": "end_completed"}
+  ],
+  "terminal_states": ["end_completed", "end_escalated"]
+}

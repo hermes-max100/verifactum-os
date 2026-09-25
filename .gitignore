@@ -1,0 +1,36 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Runtime / generated
+node_modules/
+dist/
+build/
+coverage/
+.tmp/
+tmp/
+.cache/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Editors / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Sensitive local artifacts
+matter-data/
+evidence/
+private/
+receipts/
+exports/
